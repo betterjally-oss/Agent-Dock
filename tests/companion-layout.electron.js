@@ -36,6 +36,7 @@ async function main() {
         pocketTop: pocketRect.top,
         pocketBottom: pocketRect.bottom,
         animationName: getComputedStyle(cat).animationName,
+        reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches,
         raster: cat instanceof HTMLImageElement && cat.currentSrc.endsWith('/cat-sleep.png'),
         loaded: cat.naturalWidth > 0,
         notchHeight: 38,
@@ -49,7 +50,7 @@ async function main() {
       layout.pocketTop <= layout.notchHeight && layout.pocketBottom >= layout.catBottom,
       `sleeping cat must remain inside the extended island pocket: ${JSON.stringify(layout)}`
     );
-    assert.equal(layout.animationName, 'sleepy-life');
+    assert.equal(layout.animationName, layout.reducedMotion ? 'none' : 'sleepy-life');
     assert.ok(Math.abs(layout.catHeight - 48) < 1, JSON.stringify(layout));
     assert.equal(layout.raster, true);
     assert.equal(layout.loaded, true);
@@ -69,15 +70,20 @@ async function main() {
         catHeight: Number.parseFloat(getComputedStyle(cat).height),
         raster: cat instanceof HTMLImageElement && cat.currentSrc.endsWith('/cat-swing.png'),
         loaded: cat.naturalWidth > 0,
+        animationName: style.animationName,
         animationDuration: style.animationDuration,
         animationIterationCount: style.animationIterationCount,
+        reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches,
       };
     })()`);
     assert.ok(focusLayout.catWidth > 0 && Math.abs(focusLayout.catHeight - 48) < 1);
     assert.equal(focusLayout.raster, true);
     assert.equal(focusLayout.loaded, true);
-    assert.equal(focusLayout.animationDuration, '4s');
-    assert.equal(focusLayout.animationIterationCount, 'infinite');
+    assert.equal(focusLayout.animationName, focusLayout.reducedMotion ? 'none' : 'focus-swing');
+    if (!focusLayout.reducedMotion) {
+      assert.equal(focusLayout.animationDuration, '4s');
+      assert.equal(focusLayout.animationIterationCount, 'infinite');
+    }
 
     window.webContents.send('companion:state', { state: 'peek', message: '', notchHeight: 38 });
     await new Promise((resolve) => setTimeout(resolve, 900));
@@ -96,6 +102,7 @@ async function main() {
         coverBottom: coverRect.bottom,
         animationName: style.animationName,
         animationDuration: style.animationDuration,
+        reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches,
       };
     })()`);
     assert.equal(peekLayout.raster, true);
@@ -106,8 +113,8 @@ async function main() {
       JSON.stringify(peekLayout)
     );
     assert.ok(peekLayout.coverBottom <= 38 && peekLayout.catBottom > 38);
-    assert.equal(peekLayout.animationName, 'peek-route');
-    assert.equal(peekLayout.animationDuration, '6.4s');
+    assert.equal(peekLayout.animationName, peekLayout.reducedMotion ? 'none' : 'peek-route');
+    if (!peekLayout.reducedMotion) assert.equal(peekLayout.animationDuration, '6.4s');
 
     window.webContents.send('companion:state', { state: 'zipline', message: '', notchHeight: 38 });
     await new Promise((resolve) => setTimeout(resolve, 50));
@@ -124,12 +131,13 @@ async function main() {
       loaded: document.querySelector('.cat-celebrate').naturalWidth > 0,
       catHeight: Number.parseFloat(getComputedStyle(document.querySelector('.cat-celebrate')).height),
       animationName: getComputedStyle(document.querySelector('.cat-celebrate')).animationName,
+      reducedMotion: matchMedia('(prefers-reduced-motion: reduce)').matches,
       quote: document.querySelector('#companion-quote').textContent,
     }))()`);
     assert.equal(celebration.raster, true);
     assert.equal(celebration.loaded, true);
     assert.ok(Math.abs(celebration.catHeight - 48) < 1, JSON.stringify(celebration));
-    assert.equal(celebration.animationName, 'celebrate-bob');
+    assert.equal(celebration.animationName, celebration.reducedMotion ? 'none' : 'celebrate-bob');
     assert.equal(celebration.quote, '做得好！');
   } finally {
     window.destroy();
