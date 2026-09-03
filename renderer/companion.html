@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; style-src 'self'; script-src 'self'" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agent Dock 桌面伙伴</title>
+    <link rel="stylesheet" href="companion.css" />
+  </head>
+  <body>
+    <main id="companion" data-state="hidden" aria-hidden="true">
+      <i class="sleep-pocket" aria-hidden="true"></i>
+      <img class="companion-cat cat-rest" src="assets/companion/cat-sleep.png" alt="" draggable="false" />
+      <span class="dream-marks" aria-hidden="true"><i>z</i><i>z</i><i>z</i></span>
+
+      <i class="peek-cover" aria-hidden="true"></i>
+      <i class="attention-mark" aria-hidden="true"></i>
+      <div class="peek-stage" aria-hidden="true">
+        <img class="companion-cat cat-peek" src="assets/companion/cat-peek.png" alt="" draggable="false" />
+      </div>
+
+      <div class="swing-stage" aria-hidden="true">
+        <i class="rope rope-left"></i>
+        <i class="rope rope-right"></i>
+        <img class="companion-cat cat-swing" src="assets/companion/cat-swing.png" alt="" draggable="false" />
+        <i class="swing-seat"></i>
+      </div>
+
+      <div class="celebrate-stage" aria-hidden="true">
+        <img class="companion-cat cat-celebrate" src="assets/companion/cat-celebrate.png" alt="" draggable="false" />
+      </div>
+      <p class="quote" id="companion-quote"></p>
+    </main>
+    <script src="companion.js"></script>
+  </body>
+</html>

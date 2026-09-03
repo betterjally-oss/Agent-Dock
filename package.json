@@ -1,0 +1,94 @@
+{
+  "name": "agent-dock",
+  "version": "1.0.13",
+  "description": "Agent Dock - a local AI agent workspace under the Mac notch",
+  "main": "main.js",
+  "author": "xiaopu-ai",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test tests/*.test.js && env -u ELECTRON_RUN_AS_NODE electron tests/notch-focus.electron.js && env -u ELECTRON_RUN_AS_NODE electron tests/companion-layout.electron.js && env -u ELECTRON_RUN_AS_NODE electron tests/agent-harness.electron.js && node --check main.js && node --check main-services.js && node --check preload.js && node --check renderer/domain.js && node --check renderer/app.js && node --check renderer/workspace.js && node --check renderer/agent-dock.js && node --check renderer/icon-motion.js && node --check renderer/notification.js && node --check build/afterPack.js && node --check scripts/codex-notify.js && node --check scripts/claude-notify.js && node --check scripts/agent-hook-notify.js",
+    "start": "electron .",
+    "build": "electron-builder --mac dmg --publish never",
+    "build:zip": "electron-builder --mac zip",
+    "pack": "electron-builder --dir"
+  },
+  "devDependencies": {
+    "electron": "^44.0.0",
+    "electron-builder": "^26.15.7"
+  },
+  "build": {
+    "appId": "com.xiaopu.agentdock",
+    "productName": "Agent Dock",
+    "artifactName": "Agent-Dock-${version}-${arch}.${ext}",
+    "copyright": "© 2026 xiaopu-ai",
+    "asar": false,
+    "directories": {
+      "output": "dist.noindex",
+      "buildResources": "build"
+    },
+    "electronDist": "node_modules/electron/dist",
+    "afterPack": "./build/afterPack.js",
+    "files": [
+      "main.js",
+      "main-services.js",
+      "preload.js",
+      "renderer/**/*",
+      "scripts/codex-notify.js",
+      "scripts/claude-notify.js",
+      "scripts/agent-hook-notify.js",
+      "package.json",
+      "!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}",
+      "!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}",
+      "!**/node_modules/.bin",
+      "!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}"
+    ],
+    "mac": {
+      "icon": "build/agent-dock-icon.png",
+      "category": "public.app-category.productivity",
+      "minimumSystemVersion": "13.0",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64"
+          ]
+        }
+      ],
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "build/entitlements.mac.plist",
+      "entitlementsInherit": "build/entitlements.mac.plist",
+      "darkModeSupport": true,
+      "extendInfo": {
+        "LSUIElement": true,
+        "NSHighResolutionCapable": true,
+        "CFBundleDisplayName": "Agent Dock",
+        "NSMicrophoneUsageDescription": "Agent Dock 需要使用麦克风来录音并生成转写文本。",
+        "NSAppleEventsUsageDescription": "Agent Dock 需要控制「系统事件」来匹配并聚焦 Agent 成果窗口。"
+      }
+    },
+    "dmg": {
+      "title": "Agent Dock ${version}",
+      "iconSize": 100,
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ],
+      "window": {
+        "width": 540,
+        "height": 380
+      }
+    }
+  },
+  "dependencies": {
+    "ws": "^8.21.3"
+  }
+}

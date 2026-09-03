@@ -1,0 +1,335 @@
+:root {
+  --notch-h: 38px;
+  --companion-cat-size: 48px;
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
+  --ease-in-out: cubic-bezier(.77, 0, .175, 1);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: transparent;
+  pointer-events: none;
+  user-select: none;
+}
+
+#companion {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+}
+
+#companion[data-state='hidden'] { opacity: 0; }
+
+.companion-cat {
+  position: absolute;
+  display: none;
+  width: auto;
+  height: var(--companion-cat-size);
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 3px 5px rgba(0, 0, 0, .28));
+}
+
+.sleep-pocket {
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--notch-h) - 1px);
+  left: 50%;
+  display: none;
+  width: 156px;
+  height: 48px;
+  transform: translateX(-50%);
+  border-radius: 0 0 26px 26px;
+  background: #000;
+  box-shadow: inset 0 -1px rgba(255, 255, 255, .12), 0 8px 18px rgba(0, 0, 0, .26);
+}
+
+#companion[data-state='rest'] .sleep-pocket,
+#companion[data-state='rest'] .cat-rest,
+#companion[data-state='rest'] .dream-marks { display: block; }
+
+.cat-rest {
+  z-index: 2;
+  top: calc(var(--notch-h) - 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  transform-origin: 50% 84%;
+  animation: sleepy-life 3.8s var(--ease-in-out) infinite;
+}
+
+.dream-marks {
+  position: absolute;
+  z-index: 3;
+  top: calc(var(--notch-h) + 2px);
+  left: calc(50% - 46px);
+  display: none;
+  width: 28px;
+  height: 28px;
+  color: rgba(255, 255, 255, .7);
+  font: 600 9px/1 -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.dream-marks i {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  font-style: normal;
+  animation: dream-float 6.6s var(--ease-out) infinite;
+}
+
+.dream-marks i:nth-child(2) { animation-delay: 1.1s; }
+.dream-marks i:nth-child(3) { animation-delay: 2.2s; }
+
+.peek-cover {
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  left: 50%;
+  display: none;
+  width: 200px;
+  height: var(--notch-h);
+  transform: translateX(-50%);
+  border-radius: 0 0 10px 10px;
+  background: #000;
+}
+
+.peek-cover::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  width: 14px;
+  height: 3px;
+  transform: translateX(-50%);
+  border-radius: 99px;
+  background: rgba(255, 255, 255, .55);
+}
+
+.peek-stage {
+  position: absolute;
+  z-index: 2;
+  top: calc(var(--notch-h) - 36px);
+  left: 50%;
+  display: none;
+  width: 65px;
+  height: var(--companion-cat-size);
+  transform: translateX(-50%);
+  transform-origin: 50% 0;
+}
+
+.cat-peek {
+  inset: 0;
+  display: block;
+}
+
+#companion[data-state='peek'] .peek-cover,
+#companion[data-state='peek'] .peek-stage,
+#companion[data-state='attention'] .peek-cover,
+#companion[data-state='attention'] .peek-stage { display: block; }
+
+#companion[data-state='peek'] .peek-stage { animation: peek-route 6.4s var(--ease-in-out) both; }
+#companion[data-state='attention'] .peek-stage { animation: peek-route 6.4s var(--ease-in-out) infinite; }
+
+.attention-mark {
+  position: absolute;
+  z-index: 6;
+  top: calc(var(--notch-h) + 2px);
+  left: calc(50% + 80px);
+  display: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffb84d;
+  box-shadow: 0 0 12px rgba(255, 184, 77, .7);
+}
+
+#companion[data-state='attention'] .attention-mark { display: block; }
+
+.swing-stage {
+  position: absolute;
+  top: calc(var(--notch-h) - 3px);
+  left: 50%;
+  display: none;
+  width: 160px;
+  height: calc(100% - var(--notch-h) + 3px);
+  transform: translateX(-50%);
+  transform-origin: 50% 0;
+}
+
+#companion[data-state='focus'] .swing-stage {
+  display: block;
+  animation: focus-swing 4s var(--ease-in-out) infinite;
+}
+
+.cat-swing {
+  z-index: 2;
+  top: 10px;
+  left: 50%;
+  display: block;
+  transform: translateX(-50%);
+}
+
+.rope {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  width: 2px;
+  height: 60px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #4b2b13, #ac7241 48%, #3d210e);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .45);
+}
+
+.rope-left { left: 63px; }
+.rope-right { right: 63px; }
+
+.swing-seat {
+  position: absolute;
+  z-index: 3;
+  top: 57px;
+  left: 50%;
+  width: 52px;
+  height: 5px;
+  transform: translateX(-50%);
+  border: 1px solid #3d2417;
+  border-radius: 3px;
+  background: linear-gradient(#b97b4c, #74401f);
+}
+
+.celebrate-stage {
+  position: absolute;
+  top: calc(var(--notch-h) - 10px);
+  left: 50%;
+  display: none;
+  width: 43px;
+  height: var(--companion-cat-size);
+  transform: translateX(-50%);
+  transform-origin: 50% 90%;
+}
+
+.cat-celebrate {
+  inset: 0;
+  display: block;
+  animation: celebrate-bob .84s var(--ease-in-out) 420ms infinite;
+}
+
+#companion[data-state='celebrate'] .celebrate-stage {
+  display: block;
+  animation: celebrate-pop 420ms var(--ease-out) both;
+}
+
+.quote {
+  position: absolute;
+  top: 82px;
+  left: 50%;
+  display: none;
+  min-width: 208px;
+  max-width: 300px;
+  margin: 0;
+  padding: 11px 18px;
+  transform: translateX(-50%);
+  border: 1px solid rgba(109, 213, 255, .72);
+  border-radius: 18px;
+  background: rgba(13, 15, 22, .94);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .38), inset 0 0 0 1px rgba(143, 90, 255, .22);
+  color: rgba(255, 255, 255, .96);
+  font: 500 13px/1.45 -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.quote::before {
+  content: '';
+  position: absolute;
+  top: -7px;
+  left: calc(50% - 7px);
+  width: 12px;
+  height: 12px;
+  transform: rotate(45deg);
+  border-top: 1px solid rgba(142, 109, 255, .72);
+  border-left: 1px solid rgba(142, 109, 255, .72);
+  background: rgba(13, 15, 22, .94);
+}
+
+#companion[data-state='celebrate'] .quote {
+  display: block;
+  animation: quote-in 300ms 120ms var(--ease-out) both;
+}
+
+#companion.responding .cat-rest { animation: cat-nod 360ms var(--ease-out); }
+
+@keyframes sleepy-life {
+  0%, 100% { transform: translateX(-50%) translateY(0) scale(1); }
+  50% { transform: translateX(-50%) translateY(1px) scale(1.018, .965); }
+}
+
+@keyframes dream-float {
+  0%, 38%, 100% { opacity: 0; transform: translate(0, 0) scale(.8); }
+  48% { opacity: .66; }
+  66% { opacity: 0; transform: translate(-8px, -15px) scale(1.18); }
+}
+
+@keyframes focus-swing {
+  0%, 100% { transform: translateX(-50%) rotate(0deg); }
+  25% { transform: translateX(-50%) rotate(3deg); }
+  75% { transform: translateX(-50%) rotate(-3deg); }
+}
+
+@keyframes peek-route {
+  0%, 4% { opacity: 0; transform: translate3d(calc(-50% - 62px), 0, 0); }
+  10%, 25% { opacity: 1; transform: translate3d(calc(-50% - 100px), 0, 0) rotate(-8deg); }
+  32%, 44% { opacity: 0; transform: translate3d(calc(-50% - 62px), 0, 0); }
+  45%, 49% { opacity: 0; transform: translate3d(calc(-50% + 62px), 0, 0) scaleX(-1); }
+  55%, 72% { opacity: 1; transform: translate3d(calc(-50% + 100px), 0, 0) scaleX(-1) rotate(-8deg); }
+  79%, 100% { opacity: 0; transform: translate3d(calc(-50% + 62px), 0, 0) scaleX(-1); }
+}
+
+@keyframes celebrate-pop {
+  from { opacity: 0; transform: translateX(-50%) translateY(14px) scale(.92); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+}
+
+@keyframes celebrate-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes quote-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(5px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes cat-nod {
+  0%, 100% { transform: translateX(-50%) rotate(0); }
+  45% { transform: translateX(-50%) translateY(2px) rotate(2deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cat-rest,
+  .peek-stage,
+  .swing-stage,
+  .celebrate-stage,
+  .cat-celebrate,
+  .quote,
+  .dream-marks i,
+  #companion.responding .cat-rest {
+    animation: none !important;
+  }
+
+  #companion[data-state='peek'] .peek-stage,
+  #companion[data-state='attention'] .peek-stage {
+    opacity: 1;
+    transform: translate3d(calc(-50% - 100px), 0, 0);
+  }
+
+  .dream-marks { display: none !important; }
+}
