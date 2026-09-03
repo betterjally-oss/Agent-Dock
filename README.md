@@ -15,17 +15,17 @@
 - **待我处理**：汇集需要确认、可能过期、最近失败和临近截止的事项。
 - **已完成**：保留清洗后的成果摘要，支持打开对应应用、复制摘要或转为任务。
 - **快速交代**：先整理一段要求，再复制并打开目标 AI；内容不会自动发送。
-- **本地工作区**：内置任务、草稿、番茄钟、语音记录和可选剪贴板。
+- **本地工作区**：内置任务、笔记、番茄钟、语音记录和可选剪贴板。
 - **桌面伙伴**：48px PNG 小猫会沿面板边缘巡逻，并按专注与 Agent 状态切换动作。
 
 <table>
   <tr>
     <td><img src="docs/images/tasks.png" alt="任务页面" /></td>
-    <td><img src="docs/images/notes.png" alt="草稿页面" /></td>
+    <td><img src="docs/images/notes.png" alt="笔记页面" /></td>
   </tr>
   <tr>
     <td align="center">四象限任务</td>
-    <td align="center">会话草稿</td>
+    <td align="center">笔记</td>
   </tr>
 </table>
 
