@@ -468,17 +468,17 @@ test('home layout swaps complete slot assignments without duplicates', () => {
 
 test('todo category names migrate to work streams and reject blank edits', () => {
   const defaults = {
-    P0: '课程',
-    P1: '自媒体&写作',
-    P2: 'Vibe coding',
-    P3: '日常',
+    P0: 'P0',
+    P1: 'P1',
+    P2: 'P2',
+    P3: 'P3',
   };
   assert.deepEqual(normalizeTodoCategoryNames(null, defaults), defaults);
   assert.deepEqual(normalizeTodoCategoryNames({ P0: '  教学产品  ', P1: '', P4: '无效' }, defaults), {
     P0: '教学产品',
-    P1: '自媒体&写作',
-    P2: 'Vibe coding',
-    P3: '日常',
+    P1: 'P1',
+    P2: 'P2',
+    P3: 'P3',
   });
 });
 

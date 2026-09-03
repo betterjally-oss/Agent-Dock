@@ -1,11 +1,11 @@
 const STORAGE_KEY = 'notch-todo-data';
 const PRIORITIES = ['P0', 'P1', 'P2', 'P3'];
-const TODO_CATEGORY_KEY = 'notch-todo-category-names-v1';
+const TODO_CATEGORY_KEY = 'notch-todo-category-names-v2';
 const TODO_CATEGORY_DEFAULTS = {
-  P0: '课程',
-  P1: '自媒体&写作',
-  P2: 'Vibe coding',
-  P3: '日常',
+  P0: 'P0',
+  P1: 'P1',
+  P2: 'P2',
+  P3: 'P3',
 };
 
 const app = document.getElementById('app');

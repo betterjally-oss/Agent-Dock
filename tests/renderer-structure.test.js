@@ -27,6 +27,13 @@ test('notes have a dedicated top-level tab and management panel', () => {
   assert.match(html, /id="notes-detail"/);
 });
 
+test('task panels default to P0 through P3 after the category-label migration', () => {
+  const labels = [...html.matchAll(/data-category="(P[0-3])" value="([^"]+)"/g)]
+    .map((match) => [match[1], match[2]]);
+  assert.deepEqual(labels, [['P0', 'P0'], ['P1', 'P1'], ['P2', 'P2'], ['P3', 'P3']]);
+  assert.match(appJs, /notch-todo-category-names-v2/);
+});
+
 test('retired link and credential modules are absent without deleting existing user data', () => {
   assert.doesNotMatch(html, /tab-button-(?:links|credentials)|id="tab-(?:links|credentials)"/);
   assert.doesNotMatch(html, /data-settings-feature="(?:links|credentials)"/);
